@@ -6,4 +6,3 @@ C:\TeamProjects\MartinLayooInc\ContactsSinglePageAppTFS\SinglePageApp.DataAccess
 C:\TeamProjects\MartinLayooInc\ContactsSinglePageAppTFS\SinglePageApp.DataAccess\bin\Debug\SinglePageApp.DataAccess.pdb
 C:\TeamProjects\MartinLayooInc\ContactsSinglePageAppTFS\SinglePageApp.DataAccess\obj\Debug\SinglePageApp.DataAccess.dll
 C:\TeamProjects\MartinLayooInc\ContactsSinglePageAppTFS\SinglePageApp.DataAccess\obj\Debug\SinglePageApp.DataAccess.pdb
-C:\C#Projects\ContactsSinglePageApp\SinglePageApp.DataAccess\obj\Debug\SinglePageApp.DataAccess.csprojResolveAssemblyReference.cache

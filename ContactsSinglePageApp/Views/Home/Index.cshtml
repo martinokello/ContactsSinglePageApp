@@ -66,40 +66,41 @@
 
                     $('div#ViewContact').css('display', 'none');
                     $('div#AddEditContact').css('display', 'none');
-                    $('div#AddNewContact').css('display', 'block');
                     $("form#formDataNew").submit(function (event) {
                         event.preventDefault();
+
+
+                        $('input#NewContactName').siblings('span').addClass("noError");
+                        $('input#NewContactName').siblings('span').removeClass("field-validation-error2");
+                        $('input#NewMobileNumber').siblings('span').addClass("noError");
+                        $('input#NewMobileNumber').siblings('span').removeClass("field-validation-error2");
+                        $('input#NewHomeNumber').siblings('span').addClass("noError");
+                        $('input#NewHomeNumber').siblings('span').removeClass("field-validation-error2");
+                        $('input#NewEmailAddress').siblings('span').addClass("noError");
+                        $('input#NewEmailAddress').siblings('span').removeClass("field-validation-error2");
+
                         if ($('input#NewContactName').val() == "" || $('input#NewContactName').val() == null) {
                             $('input#NewContactName').siblings('span').addClass("field-validation-error2");
-                            $('input#NewContactName').siblings('span').css('display', 'inline');
-                            $('div#AddNewContact').css('display', 'block');
-                            return false;
-                        } else {
-                            $('input#NewContactName').siblings('span').css('display', 'none');
-                        }
+                            $('input#NewContactName').siblings('span').removeClass('noError');
+                        } 
                         if ($('input#NewMobileNumber').val() == "" || $('input#NewMobileNumber').val() == null) {
                             $('input#NewMobileNumber').siblings('span').addClass("field-validation-error2");
-                            $('input#NewMobileNumber').siblings('span').css('display', 'inline');
-                            $('div#AddNewContact').css('display', 'block');
-                            return false;
-                        } else {
-                            $('input#NewMobileNumber').siblings('span').css('display', 'none');
-                        }
+                            $('input#NewMobileNumber').siblings('span').removeClass('noError');
+                        } 
                         if ($('input#NewHomeNumber').val() == "" || $('input#NewHomeNumber').val() == null) {
                             $('input#NewHomeNumber').siblings('span').addClass("field-validation-error2");
-                            $('input#NewHomeNumber').siblings('span').css('display', 'inline');
-                            $('div#AddNewContact').css('display', 'block');
-                            return false;
-                        } else {
-                            $('input#NewHomeNumber').siblings('span').css('display', 'none');
-                        }
+                            $('input#NewHomeNumber').siblings('span').removeClass('noError');
+                        } 
                         if ($('input#NewEmailAddress').val() == "" || $('input#NewEmailAddress').val() == null || !validateEmail($('input#NewEmailAddress').val()) ) {
                             $('input#NewEmailAddress').siblings('span').addClass("field-validation-error2");
-                            $('input#NewEmailAddress').siblings('span').css('display', 'inline');
+                            $('input#NewEmailAddress').siblings('span').removeClass('noError');
+                        }
+                        if ($('input#NewContactName').siblings('span').hasClass("field-validation-error2") ||
+                            $('input#NewMobileNumber').siblings('span').hasClass("field-validation-error2") ||
+                            $('input#NewHomeNumber').siblings('span').hasClass("field-validation-error2") ||
+                            $('input#NewEmailAddress').siblings('span').hasClass("field-validation-error2")) {
                             $('div#AddNewContact').css('display', 'block');
                             return false;
-                        } else {
-                            $('input#NewEmailAddress').siblings('span').css('display', 'none');
                         }
                         var formData = new FormData();
                         formData.append("ContactName", $('input#NewContactName').val());
@@ -142,38 +143,39 @@
             }
         });
         $('#SaveAddEditContactButton').click(function () {
-            debugger;
+
+            $('div#ViewContact').css('display', 'none');
+            $('input#ContactName').siblings('span').addClass("noError");
+            $('input#ContactName').siblings('span').removeClass("field-validation-error2");
+            $('input#MobileNumber').siblings('span').addClass("noError");
+            $('input#MobileNumber').siblings('span').removeClass("field-validation-error2");
+            $('input#HomeNumber').siblings('span').addClass("noError");
+            $('input#HomeNumber').siblings('span').removeClass("field-validation-error2");
+            $('input#EmailAddress').siblings('span').addClass("noError");
+            $('input#EmailAddress').siblings('span').removeClass("field-validation-error2");
+
             if ($('input#ContactName').val() == "" || $('input#ContactName').val() == null) {
                 $('input#ContactName').siblings('span').addClass("field-validation-error2");
-                $('input#ContactName').siblings('span').css('display', 'inline');
-                $('div#AddEditContact').css('display', 'block');
-                return false;
-            } else {
-                $('input#ContactName').siblings('span').css('display', 'none');
-            }
+                $('input#ContactName').siblings('span').removeClass('noError');
+            } 
             if ($('input#MobileNumber').val() == "" || $('input#MobileNumber').val() == null) {
                 $('input#MobileNumber').siblings('span').addClass("field-validation-error2");
-                $('input#MobileNumber').siblings('span').css('display', 'inline');
-                $('div#AddEditContact').css('display', 'block');
-                return false;
-            } else {
-                $('input#MobileNumber').siblings('span').css('display', 'none');
-            }
+                $('input#MobileNumber').siblings('span').removeClass('noError');
+            } 
             if ($('input#HomeNumber').val() == "" || $('input#HomeNumber').val() == null) {
                 $('input#HomeNumber').siblings('span').addClass("field-validation-error2");
-                $('input#HomeNumber').siblings('span').css('display', 'inline');
-                $('div#AddEditContact').css('display', 'block');
-                return false;
-            } else {
-                $('input#NewHomeNumber').siblings('span').css('display', 'none');
-            }
-            if ($('input#EmailAddress').val() == "" || $('input#EmailAddress').val() == null  || !validateEmail($('input#EmailAddress').val()) ) {
+                $('input#HomeNumber').siblings('span').removeClass('noError');
+            } 
+            if ($('input#EmailAddress').val() == "" || $('input#EmailAddress').val() == null || !validateEmail($('input#EmailAddress').val())) {
                 $('input#EmailAddress').siblings('span').addClass("field-validation-error2");
-                $('input#EmailAddress').siblings('span').css('display', 'inline');
+                $('input#EmailAddress').siblings('span').removeClass('noError');
+            }
+            if ($('input#ContactName').siblings('span').hasClass("field-validation-error2") ||
+                $('input#MobileNumber').siblings('span').hasClass("field-validation-error2") ||
+                $('input#HomeNumber').siblings('span').hasClass("field-validation-error2") ||
+                $('input#EmailAddress').siblings('span').hasClass("field-validation-error2")) {
                 $('div#AddEditContact').css('display', 'block');
                 return false;
-            } else {
-                $('input#EmailAddress').siblings('span').css('display', 'none');
             }
             var contid = $('input#UpdateContactId').val();
             var name = $('input#ContactName').val();
