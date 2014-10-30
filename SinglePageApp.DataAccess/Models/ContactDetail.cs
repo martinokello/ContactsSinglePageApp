@@ -16,6 +16,7 @@ namespace SinglePageApp.Models
         public string MobileNumber { get; set; }
         public string HomeNumber { get; set; }
         [Required]
+        [EmailAddress]
         public string EmailAddress { get; set; }
         public string Avatar { get; set; }
     }
