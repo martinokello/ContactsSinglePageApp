@@ -1,0 +1,352 @@
+﻿@using System.Web.Compilation
+<style type="text/css">
+    div.row {
+        text-align: center;
+        width: 100%;
+    }
+    div.SinglePageElementsMain {
+        text-align: left;width: 100%;
+    }
+    div.SinglePageElements {
+        height: auto;
+        z-index: 400;
+        position: absolute;
+        width: 20%;
+        left: 40%;
+        top: 55%;
+        text-align: left;
+        margin-right: 12%;
+        border: 1px solid gray;
+        border-radius: 10px;
+        background-color: ghostwhite;
+        min-width: 280px;
+    }
+    input[type=file]{margin-left:4px;padding:0px;}
+    div.closeDiv {
+        float: right;
+        font-weight: bolder;
+        font-size: large;
+        padding: 5px;
+        border: solid thin gray;
+        border-radius: 10px;
+    }
+    input[type=submit]{margin-left:10px; margin-bottom:10px;border-radius: 5px;}
+    input[type=button] {
+        border-radius: 5px;
+    }
+    img{height:5%;}
+    div.row{text-align: center;}
+    .field-validation-error2 {
+        font-size: medium;color: red;font-weight: bolder;display: inline;
+    }
+    .noError{display:none;}
+</style>
+<script type="text/javascript">
+    var SyncDataList = new Array();
+
+    function validateEmail(email) {
+        var re = /^[_a-z0-9-]+(\.[_a-z0-9-]+)@@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/;
+        return re.test(email);
+    }
+    $(document).ready(function () {
+        $('div.closeDiv').click(function () {
+            $(this).parent('div').css('display', 'none');
+        });
+        //Get Contacts
+        $.ajax({
+            url: "/api/Contacts/GetContacts",
+            method: "GET",
+            success: function (data, textStatus, jqXHR) {
+                $('table#ContactsTable > tbody').children('tr').each(function () { $(this).remove(); });
+                $.each(data, function (index, value) {
+                    $('table#ContactsTable > tbody').append('<tr><td><img style="height:50px;" src="' + value.Avatar + '"></td><td>' + value.Name + '</td><td><input id="view_' + value.ContactId + '" type="button" value="View"/><td><input id="' + value.ContactId + '" type="button" value="Edit"/></td></tr>');
+                });
+                $('div#Contacts').append('<input id="AddNew" type="button" value="New Contact"/>');
+                $('input#AddNew').click(function () {
+
+                    $('div#ViewContact').css('display', 'none');
+                    $('div#AddEditContact').css('display', 'none');
+                    $('div#AddNewContact').css('display', 'block');
+                    $("form#formDataNew").submit(function (event) {
+                        event.preventDefault();
+                        if ($('input#NewContactName').val() == "" || $('input#NewContactName').val() == null) {
+                            $('input#NewContactName').siblings('span').addClass("field-validation-error2");
+                            $('input#NewContactName').siblings('span').css('display', 'inline');
+                            $('div#AddNewContact').css('display', 'block');
+                            return false;
+                        } else {
+                            $('input#NewContactName').siblings('span').css('display', 'none');
+                        }
+                        if ($('input#NewMobileNumber').val() == "" || $('input#NewMobileNumber').val() == null) {
+                            $('input#NewMobileNumber').siblings('span').addClass("field-validation-error2");
+                            $('input#NewMobileNumber').siblings('span').css('display', 'inline');
+                            $('div#AddNewContact').css('display', 'block');
+                            return false;
+                        } else {
+                            $('input#NewMobileNumber').siblings('span').css('display', 'none');
+                        }
+                        if ($('input#NewHomeNumber').val() == "" || $('input#NewHomeNumber').val() == null) {
+                            $('input#NewHomeNumber').siblings('span').addClass("field-validation-error2");
+                            $('input#NewHomeNumber').siblings('span').css('display', 'inline');
+                            $('div#AddNewContact').css('display', 'block');
+                            return false;
+                        } else {
+                            $('input#NewHomeNumber').siblings('span').css('display', 'none');
+                        }
+                        if ($('input#NewEmailAddress').val() == "" || $('input#NewEmailAddress').val() == null || !validateEmail($('input#NewEmailAddress').val()) ) {
+                            $('input#NewEmailAddress').siblings('span').addClass("field-validation-error2");
+                            $('input#NewEmailAddress').siblings('span').css('display', 'inline');
+                            $('div#AddNewContact').css('display', 'block');
+                            return false;
+                        } else {
+                            $('input#NewEmailAddress').siblings('span').css('display', 'none');
+                        }
+                        var formData = new FormData();
+                        formData.append("ContactName", $('input#NewContactName').val());
+                        formData.append("MobileNumber", $('input#NewMobileNumber').val());
+                        formData.append("HomeNumber", $('input#NewHomeNumber').val());
+                        formData.append("EmailAddress", $('input#NewEmailAddress').val());
+                        formData.append("ContactId", $('#NewContactId').val());
+                        formData.append("Avatar", $("#NewAvatar").prop('files')[0]);
+                        $.ajax({
+                            url: "/api/Contacts/AddContact",
+                            method: "POST",
+                            data: formData,
+                            cache: false,
+                            contentType: false,
+                            processData: false,
+                            async: false,
+                            success: function (result) {
+
+                                $('div#AddEditContact').css('display', 'none');
+                                $('div#AddNewContact').css('display', 'none');
+                                $.ajax({
+                                    url: "/api/Contacts/GetContacts",
+                                    method: "GET",
+                                    success: function (data, textStatus, jqXHR) {
+
+                                        $('table#ContactsTable > tbody').children('tr').each(function () { $(this).remove(); });
+                                        $.each(data, function (index, value) {
+                                            $('table#ContactsTable > tbody').append('<tr><td><img style="height:50px;" src="' + value.Avatar + '"></td><td>' + value.Name + '</td><td><input id="view_' + value.ContactId + '" type="button" value="View"/><td><input id="' + value.ContactId + '" type="button" value="Edit"/></td></tr>');
+                                        });
+                                    }
+                                });
+                            }
+                        });
+                    });
+
+                    return false;
+                });
+            },
+            error: function (jqXHR, error, errorThrown) {
+            }
+        });
+        $('#SaveAddEditContactButton').click(function () {
+            debugger;
+            if ($('input#ContactName').val() == "" || $('input#ContactName').val() == null) {
+                $('input#ContactName').siblings('span').addClass("field-validation-error2");
+                $('input#ContactName').siblings('span').css('display', 'inline');
+                $('div#AddEditContact').css('display', 'block');
+                return false;
+            } else {
+                $('input#ContactName').siblings('span').css('display', 'none');
+            }
+            if ($('input#MobileNumber').val() == "" || $('input#MobileNumber').val() == null) {
+                $('input#MobileNumber').siblings('span').addClass("field-validation-error2");
+                $('input#MobileNumber').siblings('span').css('display', 'inline');
+                $('div#AddEditContact').css('display', 'block');
+                return false;
+            } else {
+                $('input#MobileNumber').siblings('span').css('display', 'none');
+            }
+            if ($('input#HomeNumber').val() == "" || $('input#HomeNumber').val() == null) {
+                $('input#HomeNumber').siblings('span').addClass("field-validation-error2");
+                $('input#HomeNumber').siblings('span').css('display', 'inline');
+                $('div#AddEditContact').css('display', 'block');
+                return false;
+            } else {
+                $('input#NewHomeNumber').siblings('span').css('display', 'none');
+            }
+            if ($('input#EmailAddress').val() == "" || $('input#EmailAddress').val() == null  || !validateEmail($('input#EmailAddress').val()) ) {
+                $('input#EmailAddress').siblings('span').addClass("field-validation-error2");
+                $('input#EmailAddress').siblings('span').css('display', 'inline');
+                $('div#AddEditContact').css('display', 'block');
+                return false;
+            } else {
+                $('input#EmailAddress').siblings('span').css('display', 'none');
+            }
+            var contid = $('input#UpdateContactId').val();
+            var name = $('input#ContactName').val();
+            var mobNo = $('input#MobileNumber').val();
+            var hoNo = $('input#HomeNumber').val();
+            var email = $('input#EmailAddress').val();
+            var contact = {
+                ContactId: contid,
+                Name: name,
+                MobileNumber: mobNo,
+                HomeNumber: hoNo,
+                EmailAddress: email
+            }
+            SyncDataList.push(contact);
+            $('div#AddEditContact').css('display', 'none');
+            $('div#AddNewContact').css('display', 'none');
+            return false;
+        });
+        $('#SyncData').click(function () {
+            var datalist = JSON.stringify(SyncDataList);
+            $.ajax({
+                url: "/api/Contacts/PostAndSyncData",
+                method: "POST",
+                data: datalist,
+                cache: false,
+                contentType: "application/json",
+                async: false,
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("Content-Type", "application/json");
+                },
+                success: function (result) {
+                    $('div#AddEditContact').css('display', 'none');
+                    $.ajax({
+                        url: "/api/Contacts/GetContacts",
+                        method: "GET",
+                        success: function (data, textStatus, jqXHR) {
+                            $('table#ContactsTable > tbody').children('tr').remove();
+                            $.each(data, function (index, value) {
+                                $('table#ContactsTable > tbody').append('<tr><td><img style="height:50px;" src="' + value.Avatar + '"></td><td>' + value.Name + '</td><td><input id="view_' + value.ContactId + '" type="button" value="View"/><td><input id="' + value.ContactId + '" type="button" value="Edit"/></td></tr>');
+                            });
+                        }, error: function (jqXHR, errorStatus, errorMethod) {
+                        }
+                    });
+                },
+                error: function (jqXHR, errorStatus, errorMethod) {
+                }
+            });
+        });
+        //Hook edit and New contact event handlers:
+
+        $('#UpdateImage').click(function () {
+            var formData = new FormData();
+            formData.append("ContactId", $('input#UpdateContactId').val());
+            formData.append("Avatar", $("#UpdateAvatar").prop('files')[0]);
+            formData.append("ContactName", '');
+            formData.append("MobileNumber", '');
+            formData.append("HomeNumber", '');
+            formData.append("EmailAddress", '');
+            debugger;
+            $.ajax({
+                url: "/api/Contacts/UpdateProfilePicture",
+                method: "POST",
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false,
+                async: false,
+                success: function (result) {
+
+                    alert('Profile picture Updated!');
+                }
+            });
+            return false;
+        });
+
+        $('table#ContactsTable').on('click', 'input[type="button"]', function () {
+            $('div#AddNewContact').css('display', 'none');
+            var contactId = $(this).attr("id");
+            var avatarUrl = $(this).parent().parent().find('td:first img').attr('src');
+
+            if (contactId.indexOf('view_') == 0) {
+                $('div#AddEditContact').css('display', 'none');
+                contactId = contactId.substring(5);
+
+                $.ajax({
+                    url: "/api/Contacts/GetContact?contactId=" + contactId,
+                    method: "GET",
+                    success: function (data) {
+                        $('div#AddEditContact').css('display', 'none');
+                        $('div#ViewContact').css('display', 'block');
+                        $('img#viewProfilePicture').attr('src', avatarUrl);
+                        $('span#ContactIdDisplay').html(data.ContactId);
+                        $('span#contactNameDisplay').html(data.Name);
+                        $('span#MobileNumberDisplay').html(data.MobileNumber);
+                        $('span#HomeNumberDisplay').html(data.HomeNumber);
+                        $('span#EmailAddressDisplay').html(data.EmailAddress);
+                    }
+                });
+            }
+            else {
+                $.ajax({
+                    url: "/api/Contacts/GetContact?contactId=" + contactId,
+                    method: "GET",
+                    success: function (data) {
+
+                        $('div#AddEditContact').css('display', 'block');
+                        $('div#ViewContact').css('display', 'none');
+                        $('img#editProfilePicture').attr('src', avatarUrl);
+                        $('input#UpdateContactId').val(data.ContactId);
+                        $('input#ContactName').val(data.Name);
+                        $('input#MobileNumber').val(data.MobileNumber);
+                        $('input#HomeNumber').val(data.HomeNumber);
+                        $('input#EmailAddress').val(data.EmailAddress);
+                    }
+                });
+            }
+            return false;
+        });
+    });
+</script>
+
+<div class="jumbotron">
+    <h1>ASP.NET</h1>
+    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS, and JavaScript.</p>
+    <p><a href="http://asp.net" class="btn btn-primary btn-large">Learn more &raquo;</a></p>
+</div>
+<div class="row">
+    <div class="SinglePageElementsMain" id="Contacts">
+        <div><input id="SyncData" type="button" value="Sync" /></div>
+        <table id="ContactsTable" class="table">
+            <tbody>
+                
+            </tbody>
+        </table>
+    </div>
+    <div class="SinglePageElements" id="AddEditContact" style="display:none;">
+        <div class="closeDiv">X</div><div style="clear:both;"></div>
+        <div style="text-align: center;"><img id="editProfilePicture" src="" width="110px" alt="No Image Available" /><br/><br/><input type="submit" id="UpdateImage" value="SaveImage" /><hr style="width:60%;color:greenyellow;" /></div>
+        <form enctype="multipart/form-data" id="formData">
+        <input type="hidden" id="UpdateContactId" name="ConatactId" />
+               <table id="AddEditContactTable" class="table">
+                <tr><td><label>Update Image</label></td><td><input type="file" name="Avatar" id="UpdateAvatar" /><span class="noError">*</span> </td></tr>
+                <tr><td><label>Contact Name</label></td><td><input type="text" id="ContactName" name="ContactName" /><span class="noError">*</span> </td></tr>
+                <tr><td><label>Mobile Number</label></td><td><input type="text" name="MobileNumber" id="MobileNumber" /><span class="noError">*</span> </td></tr>
+                <tr><td><label>Home Number</label></td><td><input type="text" name="HomeNumber" id="HomeNumber" /><span class="noError">*</span> </td></tr>
+                <tr><td><label>Email Address</label></td><td><input type="text" name="EmailAddress" id="EmailAddress" /><span class="noError">*</span> </td></tr>
+            </table>
+            <input type="submit" id="SaveAddEditContactButton" value="Save" />
+        </form>
+    </div>
+    <div class="SinglePageElements" id="AddNewContact" style="display:none;">
+        <div class="closeDiv">X</div><div style="clear:both;"></div>
+        <form enctype="multipart/form-data" id="formDataNew">
+            <table id="AddNewContactTable" class="table">
+                <input type="hidden" id="NewContactId" name="ConatactId" />
+                <tr><td><label>Add Image</label></td><td><input type="file" name="Avatar" id="NewAvatar" /><span class="noError">*</span> </td></tr>
+                <tr><td><label>Contact Name</label></td><td><input type="text" id="NewContactName" name="ContactName" /><span class="noError">*</span> </td></tr>
+                <tr><td><label>Mobile Number</label></td><td><input type="text" name="MobileNumber" id="NewMobileNumber" /><span class="noError">*</span> </td></tr>
+                <tr><td><label>Home Number</label></td><td><input type="text" name="HomeNumber" id="NewHomeNumber" /><span class="noError">*</span> </td></tr>
+                <tr><td><label>Email Address</label></td><td><input type="text" name="EmailAddress" id="NewEmailAddress" /><span class="noError">*</span> </td></tr>
+            </table>
+            <input type="submit" id="SaveNewContactButton" value="Save" />
+        </form>
+    </div>
+    <div class="SinglePageElements" id="ViewContact" style="display:none;">
+        <div class="closeDiv">X</div><div style="clear:both;"></div>
+        <div style="text-align: center;"><img id="viewProfilePicture" src="" width="110px" alt="No Image Available"/><br/><hr style="width: 60%; color: greenyellow;"/></div>
+        <table id="ViewContactTable" class="table">
+            <tr><td><label>Contact Name</label></td><td><span id="contactNameDisplay"></span></td></tr>
+            <tr><td><label>Mobile Number</label></td><td><span id="MobileNumberDisplay"></span></td></tr>
+            <tr><td><label>Home Number</label></td><td><span id="HomeNumberDisplay"></span></td></tr>
+            <tr><td><label>Email Address</label></td><td><span id="EmailAddressDisplay"></span></td></tr>
+
+        </table>
+    </div>
+</div>

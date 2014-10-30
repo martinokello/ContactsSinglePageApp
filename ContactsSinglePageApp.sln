@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContactsSinglePageApp", "ContactsSinglePageApp\ContactsSinglePageApp.csproj", "{2B3E8B3A-8D54-41DF-B7A4-D664812666D3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SinglePageApp.DataAccess", "SinglePageApp.DataAccess\SinglePageApp.DataAccess.csproj", "{C9A028D8-8B0A-453C-98DC-535F3C35165A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2B3E8B3A-8D54-41DF-B7A4-D664812666D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B3E8B3A-8D54-41DF-B7A4-D664812666D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B3E8B3A-8D54-41DF-B7A4-D664812666D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B3E8B3A-8D54-41DF-B7A4-D664812666D3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C9A028D8-8B0A-453C-98DC-535F3C35165A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9A028D8-8B0A-453C-98DC-535F3C35165A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9A028D8-8B0A-453C-98DC-535F3C35165A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9A028D8-8B0A-453C-98DC-535F3C35165A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
