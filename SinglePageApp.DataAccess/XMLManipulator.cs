@@ -215,11 +215,9 @@ namespace SinglePageApp.XMLManipulatorEngine
                     cont.Add(email);
                 }
 
-                if (!string.IsNullOrEmpty(contact.Avatar))
-                {
-                    var avatar = new XElement("Avatar", contact.Avatar);
-                    cont.Add(avatar);
-                }
+                var avatar = new XElement("Avatar", contact.Avatar);
+                cont.Add(avatar);
+
                 cont.Add(contact);
                 doc.Root.Add(cont);
                 SaveDocument(doc, urlDataStoreXml);

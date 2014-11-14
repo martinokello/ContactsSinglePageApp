@@ -6,7 +6,7 @@ using System.Web.Http;
 using SinglePageApp.Models;
 using SinglePageApp.XMLManipulatorEngine;
 
-namespace ContactsSinglePageApp.ContactsSinglePageApp.Controllers
+namespace ContactsSinglePageApp.Controllers
 {
     public class ContactsController : ApiController
     {
