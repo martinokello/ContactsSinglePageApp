@@ -1,10 +1,10 @@
 MSYS-1.0.12 Build:2011-07-20 17:52
-Exception: STATUS_ACCESS_VIOLATION at eip=007F7948
-eax=00000001 ebx=0028F844 ecx=0086DB68 edx=00030000 esi=0028F848 edi=00000000
+Exception: STATUS_ACCESS_VIOLATION at eip=005E7948
+eax=00000001 ebx=0028F844 ecx=0065DB68 edx=00030000 esi=0028F848 edi=00000000
 ebp=0028F81C esp=0028F6A4 program=C:\Users\martinokello\AppData\Local\Atlassian\SourceTree\git_local\bin\sh.exe
 cs=0023 ds=002B es=002B fs=0053 gs=002B ss=002B
 Stack trace:
 Frame     Function  Args
-0028F81C  007F7948  (67A20150, 00000000, 43000645, 67A20150)
+0028F81C  005E7948  (67A20150, 00000000, 43000645, 67A20150)
 0028FA38  67A20000  (0000005A, 00000000, 00000000, 0028FA08)
-  20793 [main] sh 9408 handle_exceptions: Error while dumping state (probably corrupted stack)
+  13451 [main] sh 2968 handle_exceptions: Error while dumping state (probably corrupted stack)
